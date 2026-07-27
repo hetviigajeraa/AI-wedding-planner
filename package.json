@@ -1,101 +1,72 @@
 {
-  "name": "lenis",
-  "version": "1.3.25",
-  "description": "How smooth scroll should be",
-  "type": "module",
-  "sideEffects": false,
-  "author": "darkroom.engineering",
-  "license": "MIT",
+  "name": "lucide-react",
+  "description": "A Lucide icon library package for React applications.",
+  "version": "1.25.0",
+  "license": "ISC",
+  "homepage": "https://lucide.dev",
+  "bugs": "https://github.com/lucide-icons/lucide/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darkroomengineering/lenis.git"
-  },
-  "bugs": {
-    "url": "https://github.com/darkroomengineering/lenis/issues"
-  },
-  "homepage": "https://github.com/darkroomengineering/lenis",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/darkroomengineering"
+    "url": "https://github.com/lucide-icons/lucide.git",
+    "directory": "packages/lucide-react"
   },
   "keywords": [
-    "scroll",
-    "smooth",
-    "lenis",
-    "react",
-    "vue"
+    "Lucide",
+    "React",
+    "Feather",
+    "Icons",
+    "Icon",
+    "SVG",
+    "Feather Icons",
+    "Fontawesome",
+    "Font Awesome"
   ],
-  "workspaces": [
-    "packages/*",
-    "playground",
-    "playground/*"
-  ],
-  "scripts": {
-    "build": "tsdown",
-    "dev": "bun run --parallel dev:build dev:playground",
-    "dev:build": "tsdown --watch",
-    "dev:playground": "bun --filter playground dev",
-    "dev:nuxt": "bun --filter playground-nuxt dev",
-    "readme": "node ./scripts/update-readme.js",
-    "version:dev": "npm version prerelease --preid dev --force --no-git-tag-version",
-    "version:patch": "npm version patch --force --no-git-tag-version",
-    "version:minor": "npm version minor --force --no-git-tag-version",
-    "version:major": "npm version major --force --no-git-tag-version",
-    "postversion": "bun run build && bun run readme",
-    "publish:dev": "npm publish --tag dev",
-    "publish:main": "npm publish"
-  },
+  "author": "Eric Fennis",
+  "amdName": "lucide-react",
+  "main": "dist/cjs/lucide-react.js",
+  "module": "dist/esm/lucide-react.mjs",
+  "typings": "dist/lucide-react.d.ts",
+  "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "dynamic.js",
+    "dynamic.mjs",
+    "dynamic.mjs.map",
+    "dynamic.d.mts",
+    "dynamic.d.ts",
+    "dynamicIconImports.mjs",
+    "dynamicIconImports.d.ts",
+    "dynamicIconImports.d.mts"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^2.4.2",
-    "tsdown": "^0.21.4",
-    "typescript": "^5.7.3"
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.3.1",
+    "@types/react": "^18.3.31",
+    "@vitejs/plugin-react": "^4.7.0",
+    "jest-serializer-html": "^7.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rollup": "^4.62.2",
+    "rollup-plugin-dts": "^6.4.1",
+    "rollup-plugin-preserve-directives": "^0.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6",
+    "@lucide/build-icons": "1.1.0",
+    "@lucide/shared": "1.0.0",
+    "@lucide/rollup-plugins": "1.0.0"
   },
   "peerDependencies": {
-    "@nuxt/kit": ">=3.0.0",
-    "react": ">=17.0.0",
-    "vue": ">=3.0.0"
+    "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "vue": {
-      "optional": true
-    },
-    "@nuxt/kit": {
-      "optional": true
-    }
-  },
-  "unpkg": "./dist/lenis.mjs",
-  "main": "./dist/lenis.mjs",
-  "module": "./dist/lenis.mjs",
-  "types": "./dist/lenis.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/lenis.d.ts",
-      "default": "./dist/lenis.mjs"
-    },
-    "./react": {
-      "types": "./dist/lenis-react.d.ts",
-      "default": "./dist/lenis-react.mjs"
-    },
-    "./snap": {
-      "types": "./dist/lenis-snap.d.ts",
-      "default": "./dist/lenis-snap.mjs"
-    },
-    "./vue": {
-      "types": "./dist/lenis-vue.d.ts",
-      "default": "./dist/lenis-vue.mjs"
-    },
-    "./nuxt": {
-      "default": "./dist/lenis-vue-nuxt.mjs"
-    },
-    "./nuxt/runtime/*": {
-      "default": "./dist/nuxt/runtime/*.mjs"
-    },
-    "./dist/*": "./dist/*"
+  "scripts": {
+    "build": "pnpm clean && pnpm copy:license && pnpm build:icons && pnpm typecheck && pnpm build:bundles",
+    "copy:license": "cp ../../LICENSE ./LICENSE",
+    "clean": "rm -rf dist && rm -rf stats && rm -rf ./src/icons/*.ts && rm -f dynamic.{d.ts,d.mts,mts,mjs,mjs.map} && rm -f dynamicIconImports.d.ts",
+    "build:icons": "build-icons --output=./src --templateSrc=./scripts/exportTemplate.mts --renderUniqueKey --withAliases --withDynamicImports --separateAliasesFile --separateAliasesFileIgnore=fingerprint --aliasesFileExtension=.ts --iconFileExtension=.ts --exportFileName=index.ts",
+    "build:bundles": "rollup -c ./rollup.config.mjs",
+    "typecheck": "tsc",
+    "typecheck:watch": "tsc -w",
+    "test": "pnpm build:icons && vitest run",
+    "test:watch": "vitest watch"
   }
 }
