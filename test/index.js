@@ -1,36 +1,21 @@
 'use strict';
 
 var test = require('tape');
-var gOPD = require('../');
+var hasSymbolToStringTag = require('../');
+var runSymbolTests = require('./tests');
 
-test('gOPD', function (t) {
-	t.test('supported', { skip: !gOPD }, function (st) {
-		st.equal(typeof gOPD, 'function', 'is a function');
+test('interface', function (t) {
+	t.equal(typeof hasSymbolToStringTag, 'function', 'is a function');
+	t.equal(typeof hasSymbolToStringTag(), 'boolean', 'returns a boolean');
+	t.end();
+});
 
-		var obj = { x: 1 };
-		st.ok('x' in obj, 'property exists');
+test('Symbol.toStringTag exists', { skip: !hasSymbolToStringTag() }, function (t) {
+	runSymbolTests(t);
+	t.end();
+});
 
-		// @ts-expect-error TS can't figure out narrowing from `skip`
-		var desc = gOPD(obj, 'x');
-		st.deepEqual(
-			desc,
-			{
-				configurable: true,
-				enumerable: true,
-				value: 1,
-				writable: true
-			},
-			'descriptor is as expected'
-		);
-
-		st.end();
-	});
-
-	t.test('not supported', { skip: !!gOPD }, function (st) {
-		st.notOk(gOPD, 'is falsy');
-
-		st.end();
-	});
-
+test('Symbol.toStringTag does not exist', { skip: hasSymbolToStringTag() }, function (t) {
+	t.equal(typeof Symbol === 'undefined' ? 'undefined' : typeof Symbol.toStringTag, 'undefined', 'global Symbol.toStringTag is undefined');
 	t.end();
 });

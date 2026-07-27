@@ -1,74 +1,101 @@
 {
-    "name": "gsap",
-    "version": "3.15.0",
-    "description": "GSAP is a framework-agnostic JavaScript animation library that turns developers into animation superheroes. Build high-performance animations that work in **every** major browser. Animate CSS, SVG, canvas, React, Vue, WebGL, colors, strings, motion paths, generic objects...anything JavaScript can touch! The ScrollTrigger plugin lets you create jaw-dropping scroll-based animations with minimal code. No other library delivers such advanced sequencing, reliability, and tight control while solving real-world problems on millions of sites. GSAP works around countless browser inconsistencies; your animations **just work**. At its core, GSAP is a high-speed property manipulator, updating values over time with extreme accuracy.",
-    "homepage": "https://gsap.com",
-    "module": "index.js",
-    "main": "dist/gsap.js",
-    "types": "types/index.d.ts",
-    "sideEffects": false,
-    "exports": {
-        ".": {
-            "import": "./index.js",
-            "require": "./dist/gsap.js",
-            "types": "./types/index.d.ts",
-            "default": "./index.js"
-        },
-        "./dist/*.js": "./dist/*.js",
-        "./dist/*": "./dist/*.js",
-        "./*.js": {
-            "import": "./*.js",
-            "require": "./dist/*.js",
-            "types": "./types/*.d.ts",
-            "default": "./*.js"
-        },
-        "./*": {
-            "import": "./*.js",
-            "require": "./dist/*.js",
-            "types": "./types/*.d.ts",
-            "default": "./*.js"
-        },
-        "./types/*": "./types/*",
-        "./package.json": "./package.json"
+  "name": "lenis",
+  "version": "1.3.25",
+  "description": "How smooth scroll should be",
+  "type": "module",
+  "sideEffects": false,
+  "author": "darkroom.engineering",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darkroomengineering/lenis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/darkroomengineering/lenis/issues"
+  },
+  "homepage": "https://github.com/darkroomengineering/lenis",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/darkroomengineering"
+  },
+  "keywords": [
+    "scroll",
+    "smooth",
+    "lenis",
+    "react",
+    "vue"
+  ],
+  "workspaces": [
+    "packages/*",
+    "playground",
+    "playground/*"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "bun run --parallel dev:build dev:playground",
+    "dev:build": "tsdown --watch",
+    "dev:playground": "bun --filter playground dev",
+    "dev:nuxt": "bun --filter playground-nuxt dev",
+    "readme": "node ./scripts/update-readme.js",
+    "version:dev": "npm version prerelease --preid dev --force --no-git-tag-version",
+    "version:patch": "npm version patch --force --no-git-tag-version",
+    "version:minor": "npm version minor --force --no-git-tag-version",
+    "version:major": "npm version major --force --no-git-tag-version",
+    "postversion": "bun run build && bun run readme",
+    "publish:dev": "npm publish --tag dev",
+    "publish:main": "npm publish"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.2",
+    "tsdown": "^0.21.4",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "@nuxt/kit": ">=3.0.0",
+    "react": ">=17.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
     },
-    "keywords": [
-        "GSAP",
-        "GreenSock",
-        "animation",
-        "MotionPathPlugin",
-        "motion",
-        "motionPath",
-        "matchMedia",
-        "easing",
-        "ScrollTrigger",
-        "ScrollSmoother",
-        "Observer",
-        "JavaScript",
-        "PixiPlugin",
-        "CustomEase",
-        "Flip",
-        "SVG",
-        "3D",
-        "2D",
-        "transform",
-        "morph",
-        "morphing",
-        "tweening",
-        "Webflow"
-    ],
-    "maintainers": [
-        {
-            "name": "Jack Doyle",
-            "email": "jack@greensock.com",
-            "web": "https://gsap.com"
-        }
-    ],
-    "license": "Standard 'no charge' license: https://gsap.com/standard-license.",
-    "bugs": {
-        "url": "https://gsap.com/community/"
+    "vue": {
+      "optional": true
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/greensock/GSAP.git"
+    "@nuxt/kit": {
+      "optional": true
     }
+  },
+  "unpkg": "./dist/lenis.mjs",
+  "main": "./dist/lenis.mjs",
+  "module": "./dist/lenis.mjs",
+  "types": "./dist/lenis.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/lenis.d.ts",
+      "default": "./dist/lenis.mjs"
+    },
+    "./react": {
+      "types": "./dist/lenis-react.d.ts",
+      "default": "./dist/lenis-react.mjs"
+    },
+    "./snap": {
+      "types": "./dist/lenis-snap.d.ts",
+      "default": "./dist/lenis-snap.mjs"
+    },
+    "./vue": {
+      "types": "./dist/lenis-vue.d.ts",
+      "default": "./dist/lenis-vue.mjs"
+    },
+    "./nuxt": {
+      "default": "./dist/lenis-vue-nuxt.mjs"
+    },
+    "./nuxt/runtime/*": {
+      "default": "./dist/nuxt/runtime/*.mjs"
+    },
+    "./dist/*": "./dist/*"
+  }
 }
